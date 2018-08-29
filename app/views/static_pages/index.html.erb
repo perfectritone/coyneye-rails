@@ -1,7 +1,7 @@
 ETH/USD
 
 <%= form_tag "increase_level", method: :post do %>
-  <%= number_field_tag :level %>
+  <%= text_field_tag :level %>
   <%= submit_tag "↑" %>
   <%= Poloniex.maximum_threshold %>
 <% end %>

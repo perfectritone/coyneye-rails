@@ -9,7 +9,7 @@ class LevelsController < ActionController::Base
     if threshold < current_value
       LevelNotifier.notify(:greater_than, threshold, current_value)
     else
-      # start subscribing
+      LevelNotifier.subscribe(:greater_than, threshold)
     end
 
     redirect_to "/"
