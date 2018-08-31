@@ -8,4 +8,8 @@ class UserThreshold
   def self.max=(value)
     @@max = value.to_f
   end
+
+  def self.reset_max
+    @@max = nil
+  end
 end

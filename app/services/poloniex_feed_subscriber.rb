@@ -21,6 +21,7 @@ class PoloniexFeedSubscriber
         end
 
         if over_maximum_threshold?(current_value)
+          UserThreshold.reset_max
           notify("above", current_value)
         end
       end
