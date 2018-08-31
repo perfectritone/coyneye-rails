@@ -4,6 +4,7 @@ require "rails"
 
 %w(
   active_storage/engine
+  action_cable/engine
   action_controller/railtie
   action_view/railtie
   active_job/railtie
