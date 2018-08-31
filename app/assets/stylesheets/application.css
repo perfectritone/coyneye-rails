@@ -18,3 +18,8 @@ body {
   background-color: black;
   color: green;
 }
+
+input {
+  background-color: #1a1a1a;
+  color: green;
+}
