@@ -1,1 +1,1 @@
-PoloniexFeedJob.perform_later
+PoloniexFeedSubscriber.new.perform

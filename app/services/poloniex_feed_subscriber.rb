@@ -3,29 +3,31 @@ require 'eventmachine'
 
 class PoloniexFeedSubscriber
   def perform
-    EM.run {
-      ws = Faye::WebSocket::Client.new('wss://api2.poloniex.com')
+    Thread.new do
+      EventMachine.run do
+        ws = Faye::WebSocket::Client.new('wss://api2.poloniex.com')
 
-      ws.on :open do |event|
-        ws.send({ command: "subscribe", channel: "1002"}.to_json)
-        p [:open_now]
-      end
-
-      ws.on :message do |event|
-        data = JSON.parse(event.data)
-
-        if data[2] && data[2][0] == 149
-          current_value = data[2][1].to_f
-        else
-          next
+        ws.on :open do |event|
+          ws.send({ command: "subscribe", channel: "1002"}.to_json)
+          p [:open_now]
         end
 
-        if over_maximum_threshold?(current_value)
-          UserThreshold.reset_max
-          notify("above", current_value)
+        ws.on :message do |event|
+          data = JSON.parse(event.data)
+
+          if data[2] && data[2][0] == 149
+            current_value = data[2][1].to_f
+          else
+            next
+          end
+
+          if over_maximum_threshold?(current_value)
+            UserThreshold.reset_max
+            notify("above", current_value)
+          end
         end
       end
-    }
+    end
   end
 
   private
