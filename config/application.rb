@@ -1,6 +1,19 @@
 require_relative 'boot'
 
-require 'rails/all'
+require "rails"
+
+%w(
+  active_storage/engine
+  action_controller/railtie
+  action_view/railtie
+  active_job/railtie
+  sprockets/railtie
+).each do |railtie|
+  begin
+    require railtie
+  rescue LoadError
+  end
+end
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -12,7 +25,6 @@ module Coyneye
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
-    config.action_cable.url = "wss://api2.poloniex.com"
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
