@@ -25,6 +25,11 @@ class PoloniexFeedSubscriber
             UserThreshold.reset_max
             notify("above", current_value)
           end
+
+          if under_minimum_threshold?(current_value)
+            UserThreshold.reset_min
+            notify("below", current_value)
+          end
         end
       end
     end
@@ -40,6 +45,10 @@ class PoloniexFeedSubscriber
   end
 
   def over_maximum_threshold?(current_value)
-    UserThreshold.max && current_value > UserThreshold.max
+    UserThreshold.max && current_value >= UserThreshold.max
+  end
+
+  def under_minimum_threshold?(current_value)
+    UserThreshold.min && current_value <= UserThreshold.min
   end
 end

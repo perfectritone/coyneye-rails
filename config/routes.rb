@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
   root to: 'static_pages#index'
-  post 'increase_level', to: 'levels#increase'
+
+  post 'thresholds/max', to: 'thresholds#max', as: 'max_threshold'
+  post 'thresholds/min', to: 'thresholds#min', as: 'min_threshold'
 end

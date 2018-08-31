@@ -1,9 +1,18 @@
 ETH/USD
 
-<%= form_tag "increase_level", method: :post do %>
-  <%= text_field_tag :level %>
+<%= form_tag max_threshold_path, method: :post do %>
+  <%= text_field_tag :threshold %>
   <%= submit_tag "↑" %>
-  <%= UserThreshold.max %>
+  <%= "(#{UserThreshold.max})" if UserThreshold.max %>
 <% end %>
-<%= number_field_tag :decrease_to %> ↓ [amount] x
-<%= number_field_tag :accelerate_by %> α [amount] x
+
+<%= form_tag min_threshold_path, method: :post do %>
+  <%= text_field_tag :threshold %>
+  <%= submit_tag "↓" %>
+  <%= "(#{UserThreshold.min})" if UserThreshold.min %>
+<% end %>
+<%= form_tag "acceleration_threshold", method: :post do %>
+  <%= text_field_tag :threshold %>
+  <%= submit_tag "α" %>
+  <%= "(#{UserThreshold.acceleration})" if UserThreshold.acceleration %>
+<% end %>
