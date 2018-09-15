@@ -1,0 +1,2 @@
+class MaximumThreshold < ApplicationRecord
+end

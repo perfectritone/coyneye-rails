@@ -1,7 +1,5 @@
 class UserThreshold
   @@acceleration = nil
-  @@max = nil
-  @@min = nil
 
   def self.acceleration
     @@acceleration
@@ -12,26 +10,36 @@ class UserThreshold
   end
 
   def self.max
-    @@max
+    max_record.amount
   end
 
   def self.max=(value)
-    @@max = value.to_f
+    MaximumThreshold.create amount: value
   end
 
   def self.min
-    @@min
+    min_record.amount
   end
 
   def self.min=(value)
-    @@min = value.to_f
+    MinimumThreshold.create amount: value
   end
 
-  def self.reset_max
-    @@max = nil
+  def self.max_met
+    max.update_attributes(met: true)
   end
 
-  def self.reset_min
-    @@min = nil
+  def self.min_met
+    min.update_attributes(met: true)
+  end
+
+  protected
+
+  def self.max_record
+    MaximumThreshold.where(met: false).last
+  end
+
+  def self.min_record
+    MinimumThreshold.where(met: false).last
   end
 end

@@ -22,12 +22,12 @@ class PoloniexFeedSubscriber
           end
 
           if over_maximum_threshold?(current_value)
-            UserThreshold.reset_max
+            UserThreshold.max_met
             notify("above", current_value)
           end
 
           if under_minimum_threshold?(current_value)
-            UserThreshold.reset_min
+            UserThreshold.min_met
             notify("below", current_value)
           end
         end

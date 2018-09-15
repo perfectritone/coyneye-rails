@@ -1,0 +1,2 @@
+class MinimumThreshold < ApplicationRecord
+end
