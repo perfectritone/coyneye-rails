@@ -26,11 +26,11 @@ class UserThreshold
   end
 
   def self.max_met
-    max.update_attributes(met: true)
+    max_record.update_attributes(met: true)
   end
 
   def self.min_met
-    min.update_attributes(met: true)
+    min_record.update_attributes(met: true)
   end
 
   protected
