@@ -65,3 +65,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'faye-websocket'
+
+group :production do
+  gem 'newrelic_rpm'
+end
