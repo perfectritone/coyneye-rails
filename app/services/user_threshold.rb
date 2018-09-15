@@ -10,7 +10,7 @@ class UserThreshold
   end
 
   def self.max
-    max_record.amount
+    max_record && max_record.amount
   end
 
   def self.max=(value)
@@ -18,7 +18,7 @@ class UserThreshold
   end
 
   def self.min
-    min_record.amount
+    min_record && min_record.amount
   end
 
   def self.min=(value)
