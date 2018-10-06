@@ -21,6 +21,8 @@ class PoloniexFeedSubscriber
             next
           end
 
+          record_current_value(current_value)
+
           if over_maximum_threshold?(current_value)
             UserThreshold.max_met
             notify("above", current_value)
@@ -37,6 +39,14 @@ class PoloniexFeedSubscriber
 
   private
 
+  def from_currency
+    @from_currency ||= Currency.find_by(symbol: from_currency_symbol)
+  end
+
+  def from_currency_symbol
+    "USDT"
+  end
+
   def notify(direction, current_value)
     direction = direction.to_s.humanize
 
@@ -46,6 +56,23 @@ class PoloniexFeedSubscriber
 
   def over_maximum_threshold?(current_value)
     UserThreshold.max && current_value >= UserThreshold.max
+  end
+
+  def record_current_value(current_value)
+    Price.create(
+      from_currency: from_currency,
+      to_currency: to_currency,
+      amount: current_value,
+    )
+
+  end
+
+  def to_currency
+    @to_currency ||= Currency.find_by(symbol: to_currency_symbol)
+  end
+
+  def to_currency_symbol
+    "ETH"
   end
 
   def under_minimum_threshold?(current_value)
