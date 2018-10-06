@@ -5,5 +5,5 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Currency.create(symbol: 'ETH')
-Currency.create(symbol: 'USDT')
+Currency.find_or_create_by(symbol: 'ETH')
+Currency.find_or_create_by(symbol: 'USDT')
