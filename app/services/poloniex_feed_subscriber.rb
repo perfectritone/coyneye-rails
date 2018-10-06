@@ -23,14 +23,16 @@ class PoloniexFeedSubscriber
 
           record_current_value(current_value)
 
-          if over_maximum_threshold?(current_value)
-            UserThreshold.max_met
-            notify("above", current_value)
-          end
+          if notify_thresholds?
+            if over_maximum_threshold?(current_value)
+              UserThreshold.max_met
+              notify("above", current_value)
+            end
 
-          if under_minimum_threshold?(current_value)
-            UserThreshold.min_met
-            notify("below", current_value)
+            if under_minimum_threshold?(current_value)
+              UserThreshold.min_met
+              notify("below", current_value)
+            end
           end
         end
       end
@@ -52,6 +54,10 @@ class PoloniexFeedSubscriber
 
     message = "USDT/ETH is #{direction} threshold (#{current_value})"
     Pushover.new.notify message
+  end
+
+  def notify_thresholds?
+    Sleep.awake?
   end
 
   def over_maximum_threshold?(current_value)
