@@ -18,3 +18,7 @@ USDT/ETH (
   <%= submit_tag "α" %>
   <%= "(#{UserThreshold.acceleration})" if UserThreshold.acceleration %>
 <% end %>
+
+<%= form_tag "sleepiness", method: :post do %>
+  <%= submit_tag IndexPresenter.new.sleep_button_text %>
+<% end %>
