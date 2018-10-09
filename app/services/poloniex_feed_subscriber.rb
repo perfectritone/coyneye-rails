@@ -65,12 +65,16 @@ class PoloniexFeedSubscriber
   end
 
   def record_current_value(current_value)
+    Price.update(
+      1,
+      amount: current_value,
+    )
+  rescue ActiveRecord::RecordNotFound
     Price.create(
       from_currency: from_currency,
       to_currency: to_currency,
       amount: current_value,
     )
-
   end
 
   def to_currency

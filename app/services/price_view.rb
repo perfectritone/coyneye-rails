@@ -6,7 +6,7 @@ class PriceView
     price = Price.where(
       from_currency: usdt,
       to_currency: eth,
-    ).last
+    ).first
 
     price&.amount
   end
