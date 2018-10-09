@@ -22,6 +22,15 @@
 <% end %>
 
 <p>
+  Set thresholds to automatically update based on the custom price increment provided
+  <%= form_tag staggered_threshold_path, method: :post do %>
+    <%= hidden_field_tag :price_on_load, PriceView.current %>
+    <%= text_field_tag :deviance %>
+    <%= submit_tag IndexPresenter.new.staggered_thresholds_button_text %>
+  <% end %>
+</p>
+
+<p>
   <%= form_tag "sleepiness", method: :post do %>
     <%= submit_tag IndexPresenter.new.sleep_button_text %>
   <% end %>

@@ -14,5 +14,14 @@ class ThresholdsController < ActionController::Base
 
     redirect_to "/"
   end
+
+  def staggered
+    price, deviance = ['price_on_load', 'deviance'].map { |k| params[k].to_f }
+
+    UserThreshold.max = price + deviance
+    UserThreshold.min = price - deviance
+
+    redirect_to "/"
+  end
 end
 
