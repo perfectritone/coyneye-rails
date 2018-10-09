@@ -1,6 +1,8 @@
-USDT/ETH (
-<%= PriceView.current %>
-)
+<p>
+  USDT/ETH (
+  <%= PriceView.current %>
+  )
+</p>
 
 <%= form_tag max_threshold_path, method: :post do %>
   <%= text_field_tag :threshold %>
@@ -19,6 +21,8 @@ USDT/ETH (
   <%= "(#{UserThreshold.acceleration})" if UserThreshold.acceleration %>
 <% end %>
 
-<%= form_tag "sleepiness", method: :post do %>
-  <%= submit_tag IndexPresenter.new.sleep_button_text %>
-<% end %>
+<p>
+  <%= form_tag "sleepiness", method: :post do %>
+    <%= submit_tag IndexPresenter.new.sleep_button_text %>
+  <% end %>
+</p>

@@ -23,3 +23,7 @@ input {
   background-color: #1a1a1a;
   color: green;
 }
+
+p {
+  margin: 1em;
+}
