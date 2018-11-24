@@ -23,17 +23,7 @@ class PoloniexFeedSubscriber
 
           record_current_value(current_value)
 
-          if notify_thresholds?
-            if over_maximum_threshold?(current_value)
-              UserThreshold.max_met
-              notify("above", current_value)
-            end
-
-            if under_minimum_threshold?(current_value)
-              UserThreshold.min_met
-              notify("below", current_value)
-            end
-          end
+          send_notifications!(current_value)
         end
       end
     end
@@ -75,6 +65,20 @@ class PoloniexFeedSubscriber
         to_currency: to_currency,
         amount: current_value,
       )
+    end
+  end
+
+  def send_notifications!(current_value)
+    if notify_thresholds?
+      if over_maximum_threshold?(current_value)
+        UserThreshold.max_met
+        notify("above", current_value)
+      end
+
+      if under_minimum_threshold?(current_value)
+        UserThreshold.min_met
+        notify("below", current_value)
+      end
     end
   end
 
