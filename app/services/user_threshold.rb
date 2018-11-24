@@ -25,11 +25,11 @@ class UserThreshold
     MinimumThreshold.create amount: value
   end
 
-  def self.max_met
+  def self.max_met!
     max_record.update_attributes(met: true)
   end
 
-  def self.min_met
+  def self.min_met!
     min_record.update_attributes(met: true)
   end
 
