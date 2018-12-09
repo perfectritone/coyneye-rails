@@ -17,11 +17,9 @@ class PoloniexFeedSubscriber
 
           if data[2] && data[2][0] == 149
             current_value = data[2][1].to_f
-          else
-            next
-          end
 
-          PriceUpdater.perform current_value
+            PriceUpdater.perform current_value
+          end
         end
       end
     end
