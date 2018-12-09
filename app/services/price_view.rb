@@ -5,6 +5,10 @@ class PriceView
     price&.amount
   end
 
+  def self.clear!
+    remove_class_variable(:@@price)
+  end
+
   def self.time_updated
     price&.updated_at
   end
