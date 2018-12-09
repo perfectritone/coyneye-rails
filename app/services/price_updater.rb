@@ -1,5 +1,9 @@
 class PriceUpdater
 
+  def self.perform price
+    new.perform price
+  end
+
   def perform price
     record! price
     send_notifications! price
