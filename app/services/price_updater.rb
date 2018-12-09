@@ -28,6 +28,20 @@ class PriceUpdater
     )
   end
 
+  private
+
+  def from_currency
+    @from_currency ||= Currency.find_by(symbol: from_currency_symbol)
+  end
+
+  def from_currency_symbol
+    "USDT"
+  end
+
+  def over_maximum_threshold?(current_value)
+    UserThreshold.max && current_value >= UserThreshold.max
+  end
+
   def send_notifications!(price)
     if notify_thresholds?
       if over_maximum_threshold?(price)
@@ -42,5 +56,17 @@ class PriceUpdater
 
       notify!(direction, price)
     end
+  end
+
+  def to_currency
+    @to_currency ||= Currency.find_by(symbol: to_currency_symbol)
+  end
+
+  def to_currency_symbol
+    "ETH"
+  end
+
+  def under_minimum_threshold?(current_value)
+    UserThreshold.min && current_value <= UserThreshold.min
   end
 end
