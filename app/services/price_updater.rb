@@ -1,35 +1,18 @@
 class PriceUpdater
 
   def self.perform price
-    new.perform price
+    new(price).perform
   end
 
-  def perform price
-    record! price
-    send_notifications! price
+  attr_reader :price
+
+  def initialize(price)
+    @price = price
   end
 
-  def notify!(direction, current_value)
-    direction = direction.to_s.humanize
-
-    message = "USDT/ETH is #{direction} threshold (#{current_value})"
-    Pushover.new.notify message
-  end
-
-  def notify_thresholds?
-    Sleep.awake?
-  end
-
-  def record!(price)
-    Price.first.update_attributes(
-      amount: price,
-    )
-  rescue NoMethodError
-    Price.create(
-      from_currency: from_currency,
-      to_currency: to_currency,
-      amount: price,
-    )
+  def perform
+    record!
+    send_notifications!
   end
 
   private
@@ -42,23 +25,46 @@ class PriceUpdater
     "USDT"
   end
 
-  def over_maximum_threshold?(current_value)
-    UserThreshold.max && current_value >= UserThreshold.max
+  def notify!(direction)
+    direction = direction.to_s.humanize
+
+    message = "USDT/ETH is #{direction} threshold (#{price})"
+    Pushover.new.notify message
   end
 
-  def send_notifications!(price)
+  def notify_thresholds?
+    Sleep.awake?
+  end
+
+  def over_maximum_threshold?
+    UserThreshold.max && price >= UserThreshold.max
+  end
+
+  def record!
+    Price.first.update_attributes(
+      amount: price,
+    )
+  rescue NoMethodError
+    Price.create(
+      from_currency: from_currency,
+      to_currency: to_currency,
+      amount: price,
+    )
+  end
+
+  def send_notifications!
     if notify_thresholds?
-      if over_maximum_threshold?(price)
+      if over_maximum_threshold?
         UserThreshold.max_met!
         direction = "above"
       end
 
-      if under_minimum_threshold?(price)
+      if under_minimum_threshold?
         UserThreshold.min_met!
         direction = "below"
       end
 
-      notify!(direction, price)
+      notify!(direction)
     end
   end
 
@@ -70,7 +76,7 @@ class PriceUpdater
     "ETH"
   end
 
-  def under_minimum_threshold?(current_value)
-    UserThreshold.min && current_value <= UserThreshold.min
+  def under_minimum_threshold?
+    UserThreshold.min && price <= UserThreshold.min
   end
 end
