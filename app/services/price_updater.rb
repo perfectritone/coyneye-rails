@@ -57,11 +57,11 @@ class PriceUpdater
       if over_maximum_threshold?
         UserThreshold.max_met!
         direction = "above"
-      end
-
-      if under_minimum_threshold?
+      elsif under_minimum_threshold?
         UserThreshold.min_met!
         direction = "below"
+      else
+        return
       end
 
       notify!(direction)
