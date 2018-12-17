@@ -1,6 +1,6 @@
 <p>
   USDT/ETH (
-  <%= PriceView.current %>
+  <%= @price_view.current %>
   )
 </p>
 
@@ -24,7 +24,7 @@
 <p>
   Set thresholds to automatically update based on the custom price increment provided
   <%= form_tag staggered_threshold_path, method: :post do %>
-    <%= hidden_field_tag :price_on_load, PriceView.current %>
+    <%= hidden_field_tag :price_on_load, @price_view.current %>
     <%= text_field_tag :deviance %>
     <%= submit_tag IndexPresenter.new.staggered_thresholds_button_text %>
   <% end %>
@@ -37,6 +37,6 @@
 </p>
 
 <p class="footer">
-  Last updated: <%= PriceView.time_updated %><br />
+  Last updated: <%= @price_view.time_updated %><br />
   Clear all prices: <%= link_to "Clear", prices_path, method: :delete %><br />
 </p>

@@ -1,27 +1,26 @@
 class PriceView
-  cattr_reader :price
-
-  def self.current
+  def current
     price&.amount
   end
 
-  def self.clear!
-    remove_class_variable(:@@price)
-  end
-
-  def self.time_updated
+  def time_updated
     price&.updated_at
   end
 
-  def self.price
-    @@price ||= begin
-      eth = Currency.find_by(symbol: "ETH")
-      usdt = Currency.find_by(symbol: "USDT")
+  def price
+    @price ||= Price.get(
+      from: self.class.usdt_record,
+      to: self.class.eth_record,
+    )
+  end
 
-      Price.where(
-        from_currency: usdt,
-        to_currency: eth,
-      ).first
-    end
+  protected
+
+  def self.eth_record
+    @@eth_record ||= Currency.find_by(symbol: "ETH")
+  end
+
+  def self.usdt_record
+    @@usdt_record ||= Currency.find_by(symbol: "USDT")
   end
 end
