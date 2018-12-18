@@ -41,11 +41,9 @@ class PriceUpdater
   end
 
   def record!
-    Price.first.update_attributes(
-      amount: price,
-    )
-  rescue NoMethodError
-    Price.create(
+    Price.delete_all
+
+    Price.create!(
       from_currency: from_currency,
       to_currency: to_currency,
       amount: price,
