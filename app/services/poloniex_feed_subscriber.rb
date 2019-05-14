@@ -3,8 +3,12 @@ require 'eventmachine'
 
 class PoloniexFeedSubscriber
   CURRENCY_PAIR_IDS = {
-    usdt_eth: 149,
-    usdc_eth: 225,
+    'USDT' => {
+      'ETH' => 149,
+    },
+    'USDC' => {
+      'ETH' => 225,
+    },
   }
 
   def perform
@@ -19,7 +23,7 @@ class PoloniexFeedSubscriber
         ws.on :message do |event|
           data = JSON.parse(event.data)
 
-          if data.dig(2, 0) == CURRENCY_PAIR_IDS[:usdc_eth]
+          if data.dig(2, 0) == CURRENCY_PAIR_IDS[CurrencyPair::FROM][CurrencyPair::TO]
             current_value = data[2][1].to_f
 
             PriceUpdater.perform current_value

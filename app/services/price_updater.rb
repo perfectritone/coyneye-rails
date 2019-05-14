@@ -18,11 +18,7 @@ class PriceUpdater
   private
 
   def from_currency
-    @from_currency ||= Currency.find_by(symbol: from_currency_symbol)
-  end
-
-  def from_currency_symbol
-    "USDT"
+    @from_currency ||= Currency.find_or_create_by(symbol: CurrencyPair::FROM)
   end
 
   def notify!(direction)
@@ -67,11 +63,7 @@ class PriceUpdater
   end
 
   def to_currency
-    @to_currency ||= Currency.find_by(symbol: to_currency_symbol)
-  end
-
-  def to_currency_symbol
-    "ETH"
+    @to_currency ||= Currency.find_or_create_by(symbol: CurrencyPair::TO)
   end
 
   def under_minimum_threshold?

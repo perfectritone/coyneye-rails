@@ -1,4 +1,8 @@
 class PriceView
+  def currency_pair
+    "#{CurrencyPair::FROM}/#{CurrencyPair::TO}"
+  end
+
   def current
     price&.amount
   end
@@ -9,18 +13,18 @@ class PriceView
 
   def price
     @price ||= Price.get(
-      from: self.class.usdt_record,
-      to: self.class.eth_record,
+      from: self.class.from_record,
+      to: self.class.to_record,
     )
   end
 
   protected
 
-  def self.eth_record
-    @@eth_record ||= Currency.find_by(symbol: "ETH")
+  def self.from_record
+    @@from_record ||= Currency.find_by(symbol: CurrencyPair::FROM)
   end
 
-  def self.usdt_record
-    @@usdt_record ||= Currency.find_by(symbol: "USDT")
+  def self.to_record
+    @@to_record ||= Currency.find_by(symbol: CurrencyPair::TO)
   end
 end
