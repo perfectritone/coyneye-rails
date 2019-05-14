@@ -12,6 +12,8 @@ class PriceUpdater
   attr_reader :price
 
   def perform
+    return if price == self.class.last_price
+
     record!
     send_notifications!
   end
@@ -38,8 +40,6 @@ class PriceUpdater
   end
 
   def record!
-    return if price == self.class.last_price
-
     Price.delete_all
 
     Price.create!(
