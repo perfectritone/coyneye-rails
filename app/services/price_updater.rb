@@ -1,14 +1,15 @@
 class PriceUpdater
-
   def self.perform price
     new(price).perform
   end
 
-  attr_reader :price
+  cattr_accessor :last_price
 
   def initialize(price)
     @price = price
   end
+
+  attr_reader :price
 
   def perform
     record!
@@ -37,6 +38,8 @@ class PriceUpdater
   end
 
   def record!
+    return if price == self.class.last_price
+
     Price.delete_all
 
     Price.create!(
@@ -44,6 +47,8 @@ class PriceUpdater
       to_currency: to_currency,
       amount: price,
     )
+
+    self.class.last_price = price
   end
 
   def send_notifications!
