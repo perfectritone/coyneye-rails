@@ -11,7 +11,7 @@ class PoloniexFeedSubscriber
     },
   }
 
-  def perform
+  def self.perform
     Thread.new do
       EventMachine.run do
         ws = Faye::WebSocket::Client.new('wss://api2.poloniex.com')
@@ -23,7 +23,7 @@ class PoloniexFeedSubscriber
         ws.on :message do |event|
           data = JSON.parse(event.data)
 
-          if data.dig(2, 0) == CURRENCY_PAIR_IDS[CurrencyPair::FROM][CurrencyPair::TO]
+          if data.dig(2, 0) == currency_pair_id
             current_value = data[2][1].to_f
 
             PriceUpdater.perform current_value
@@ -31,5 +31,9 @@ class PoloniexFeedSubscriber
         end
       end
     end
+  end
+
+  def self.currency_pair_id
+    @currency_pair_id ||= CURRENCY_PAIR_IDS[CurrencyPair::FROM][CurrencyPair::TO]
   end
 end

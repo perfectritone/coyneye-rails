@@ -1,1 +1,1 @@
-PoloniexFeedSubscriber.new.perform
+PoloniexFeedSubscriber.perform
