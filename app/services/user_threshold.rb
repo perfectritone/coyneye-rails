@@ -31,10 +31,16 @@ class UserThreshold
 
   def self.max_met!
     max_record.update_attributes(met: true)
+
+    @max = nil
+    @max_record = nil
   end
 
   def self.min_met!
     min_record.update_attributes(met: true)
+
+    @min = nil
+    @min_record = nil
   end
 
   protected
