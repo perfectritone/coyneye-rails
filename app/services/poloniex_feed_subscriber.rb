@@ -13,7 +13,7 @@ class PoloniexFeedSubscriber
         ws = Faye::WebSocket::Client.new('wss://api2.poloniex.com')
 
         ws.on :open do |event|
-          ws.send { command: "subscribe", channel: "1002"}.to_json
+          ws.send({ command: "subscribe", channel: "1002"}.to_json)
         end
 
         ws.on :message do |event|
