@@ -23,6 +23,8 @@ class PoloniexFeedSubscriber
         ws.on :message do |event|
           data = JSON.parse(event.data)
 
+          Rails.logger.debug data
+
           if data.dig(2, 0) == currency_pair_id
             current_value = data[2][1].to_f
 
