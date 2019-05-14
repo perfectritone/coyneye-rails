@@ -1,9 +1,17 @@
 class PriceUpdater
+  cattr_accessor :last_price
+
   def self.perform price
     new(price).perform
   end
 
-  cattr_accessor :last_price
+  def self.from_currency
+    @from_currency ||= Currency.find_or_create_by(symbol: CurrencyPair::FROM)
+  end
+
+  def self.to_currency
+    @to_currency ||= Currency.find_or_create_by(symbol: CurrencyPair::TO)
+  end
 
   def initialize(price)
     @price = price
@@ -19,10 +27,6 @@ class PriceUpdater
   end
 
   private
-
-  def from_currency
-    @from_currency ||= Currency.find_or_create_by(symbol: CurrencyPair::FROM)
-  end
 
   def notify!(direction)
     direction = direction.to_s.humanize
@@ -43,8 +47,8 @@ class PriceUpdater
     Price.delete_all
 
     Price.create!(
-      from_currency: from_currency,
-      to_currency: to_currency,
+      from_currency: self.class.from_currency,
+      to_currency: self.class.to_currency,
       amount: price,
     )
 
@@ -65,10 +69,6 @@ class PriceUpdater
 
       notify!(direction)
     end
-  end
-
-  def to_currency
-    @to_currency ||= Currency.find_or_create_by(symbol: CurrencyPair::TO)
   end
 
   def under_minimum_threshold?
