@@ -2,27 +2,31 @@ class UserThreshold
   @@acceleration = nil
 
   def self.acceleration
-    @@acceleration
+    @acceleration
   end
 
   def self.acceleration=(value)
-    @@max = value.to_f
+    @max = value.to_f
   end
 
   def self.max
-    max_record && max_record.amount
+    @max ||= max_record&.amount
   end
 
   def self.max=(value)
-    MaximumThreshold.create amount: value
+    @max_record = MaximumThreshold.create! amount: value
+
+    @max = value
   end
 
   def self.min
-    min_record && min_record.amount
+    @min ||= min_record&.amount
   end
 
   def self.min=(value)
-    MinimumThreshold.create amount: value
+    @min_record = MinimumThreshold.create! amount: value
+
+    @min = value
   end
 
   def self.max_met!
@@ -36,10 +40,10 @@ class UserThreshold
   protected
 
   def self.max_record
-    MaximumThreshold.where(met: false).last
+    @max_record ||= MaximumThreshold.where(met: false).last
   end
 
   def self.min_record
-    MinimumThreshold.where(met: false).last
+    @min_record ||= MinimumThreshold.where(met: false).last
   end
 end
