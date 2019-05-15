@@ -16,11 +16,6 @@
   <%= submit_tag "↓" %>
   <%= "(#{UserThreshold.min})" if UserThreshold.min %>
 <% end %>
-<%= form_tag "acceleration_threshold", method: :post do %>
-  <%= text_field_tag :threshold %>
-  <%= submit_tag "α" %>
-  <%= "(#{UserThreshold.acceleration})" if UserThreshold.acceleration %>
-<% end %>
 
 <p>
   Set thresholds to automatically update based on the custom price increment provided

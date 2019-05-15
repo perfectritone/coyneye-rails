@@ -1,14 +1,4 @@
 class UserThreshold
-  @@acceleration = nil
-
-  def self.acceleration
-    @acceleration
-  end
-
-  def self.acceleration=(value)
-    @max = value.to_f
-  end
-
   def self.max
     @max ||= max_record&.amount
   end
