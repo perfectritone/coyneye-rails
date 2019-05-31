@@ -7,4 +7,4 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 Currency.find_or_create_by(symbol: 'ETH')
 Currency.find_or_create_by(symbol: 'USDT')
-Currency.find_or_create_by(symbol: 'USDC")
+Currency.find_or_create_by(symbol: 'USDC')
