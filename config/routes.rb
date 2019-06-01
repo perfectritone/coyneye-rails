@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   post 'thresholds/max', to: 'thresholds#max', as: 'max_threshold'
   post 'thresholds/min', to: 'thresholds#min', as: 'min_threshold'
   delete 'prices', to: 'prices#delete_all'
+  post 'reset_threads', to: 'threads#reset', as: 'reset_threads'
 end

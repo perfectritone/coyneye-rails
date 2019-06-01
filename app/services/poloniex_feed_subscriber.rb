@@ -12,7 +12,9 @@ class PoloniexFeedSubscriber
   }
 
   def self.perform
-    Thread.new do
+    @thread.exit if @thread
+
+    @thread = Thread.new do
       EventMachine.run do
         ws = Faye::WebSocket::Client.new('wss://api2.poloniex.com')
 
@@ -32,6 +34,7 @@ class PoloniexFeedSubscriber
       end
     end
   end
+  singleton_class.send(:alias_method, :reset, :perform)
 
   def self.currency_pair_id
     @currency_pair_id ||= CURRENCY_PAIR_IDS[CurrencyPair::FROM][CurrencyPair::TO]
