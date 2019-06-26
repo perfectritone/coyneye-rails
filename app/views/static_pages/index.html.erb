@@ -1,30 +1,38 @@
-<p>
-  (
-  <%= @price_view.currency_pair %>
-  <%= @price_view.current %>
-  )
-</p>
+<% @price_view_collection.each do |price_view| %>
+  <p>
+    (
+    <%= price_view.formatted_currency_pair %>
+    <%= price_view.current %>
+    )
+  </p>
 
-<%= form_tag max_threshold_path, method: :post do %>
-  <%= text_field_tag :threshold %>
-  <%= submit_tag "↑" %>
-  <%= "(#{UserThreshold.max})" if UserThreshold.max %>
-<% end %>
-
-<%= form_tag min_threshold_path, method: :post do %>
-  <%= text_field_tag :threshold %>
-  <%= submit_tag "↓" %>
-  <%= "(#{UserThreshold.min})" if UserThreshold.min %>
-<% end %>
-
-<p>
-  Set thresholds to automatically update based on the custom price increment provided
-  <%= form_tag staggered_threshold_path, method: :post do %>
-    <%= hidden_field_tag :price_on_load, @price_view.current %>
-    <%= text_field_tag :deviance %>
-    <%= submit_tag IndexPresenter.new.staggered_thresholds_button_text %>
+  <%= form_tag max_threshold_path, method: :post do %>
+    <%= text_field_tag :threshold %>
+    <%= submit_tag "↑" %>
+    <%= "(#{UserThreshold.max})" if UserThreshold.max %>
   <% end %>
-</p>
+
+  <%= form_tag min_threshold_path, method: :post do %>
+    <%= hidden_field_tag :currency_from, price_view.from %>
+    <%= hidden_field_tag :currency_to, price_view.to %>
+    <%= text_field_tag :threshold %>
+    <%= submit_tag "↓" %>
+    <%= "(#{UserThreshold.min})" if UserThreshold.min %>
+  <% end %>
+
+  <p>
+    Set thresholds to automatically update based on the custom price increment provided
+    <%= form_tag staggered_threshold_path, method: :post do %>
+      <%= hidden_field_tag :price_on_load, price_view.current %>
+      <%= text_field_tag :deviance %>
+      <%= submit_tag IndexPresenter.new.staggered_thresholds_button_text %>
+    <% end %>
+  </p>
+
+  <p>
+    Last updated: <%= price_view.time_updated %><br />
+  </p>
+<% end %>
 
 <p>
   <%= form_tag "sleepiness", method: :post do %>
@@ -33,7 +41,6 @@
 </p>
 
 <p class="footer">
-  Last updated: <%= @price_view.time_updated %><br />
   Clear all prices: <%= link_to "Clear", prices_path, method: :delete %><br />
   Reset threads: <%= link_to "Reset", reset_threads_path, method: :post %><br />
 </p>

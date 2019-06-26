@@ -1,6 +1,12 @@
 class PriceView
-  def currency_pair
-    "#{CurrencyPair::FROM}/#{CurrencyPair::TO}"
+  attr_reader :currency_pair
+
+  def initialize(currency_pair:)
+    @currency_pair = currency_pair
+  end
+
+  def formatted_currency_pair
+    "#{currency_pair.from}/#{currency_pair.to}"
   end
 
   def current
@@ -13,18 +19,26 @@ class PriceView
 
   def price
     @price ||= Price.get(
-      from: self.class.from_record,
-      to: self.class.to_record,
+      from: from_record,
+      to: to_record,
     )
+  end
+
+  def from
+    currency_pair.from
+  end
+
+  def to
+    currency_pair.to
   end
 
   protected
 
-  def self.from_record
-    @@from_record ||= Currency.find_by(symbol: CurrencyPair::FROM)
+  def from_record
+    @from_record ||= Currency.find_by(symbol: currency_pair.from)
   end
 
-  def self.to_record
-    @@to_record ||= Currency.find_by(symbol: CurrencyPair::TO)
+  def to_record
+    @to_record ||= Currency.find_by(symbol: currency_pair.to)
   end
 end

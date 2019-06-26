@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_06_053737) do
+ActiveRecord::Schema.define(version: 2019_06_26_045515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,11 +22,18 @@ ActiveRecord::Schema.define(version: 2018_10_06_053737) do
     t.index ["symbol"], name: "index_currencies_on_symbol"
   end
 
+  create_table "currency_pairs", force: :cascade do |t|
+    t.bigint "to_currency_id"
+    t.bigint "from_currency_id"
+  end
+
   create_table "maximum_thresholds", force: :cascade do |t|
     t.float "amount"
     t.boolean "met", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "currency_pair_id"
+    t.index ["currency_pair_id"], name: "index_maximum_thresholds_on_currency_pair_id"
   end
 
   create_table "minimum_thresholds", force: :cascade do |t|
@@ -34,6 +41,8 @@ ActiveRecord::Schema.define(version: 2018_10_06_053737) do
     t.boolean "met", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "currency_pair_id"
+    t.index ["currency_pair_id"], name: "index_minimum_thresholds_on_currency_pair_id"
   end
 
   create_table "prices", force: :cascade do |t|

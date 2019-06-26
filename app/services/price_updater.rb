@@ -6,11 +6,11 @@ class PriceUpdater
   end
 
   def self.from_currency
-    @from_currency ||= Currency.find_or_create_by(symbol: CurrencyPair::FROM)
+    @from_currency ||= Currency.find_or_create_by(symbol: CURRENCY_PAIRS[0].from)
   end
 
   def self.to_currency
-    @to_currency ||= Currency.find_or_create_by(symbol: CurrencyPair::TO)
+    @to_currency ||= Currency.find_or_create_by(symbol: CURRENCY_PAIRS[0].to)
   end
 
   def initialize(price)

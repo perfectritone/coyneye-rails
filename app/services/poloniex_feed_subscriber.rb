@@ -37,6 +37,8 @@ class PoloniexFeedSubscriber
   singleton_class.send(:alias_method, :reset, :perform)
 
   def self.currency_pair_id
-    @currency_pair_id ||= CURRENCY_PAIR_IDS[CurrencyPair::FROM][CurrencyPair::TO]
+    currency_pair = CURRENCY_PAIRS[0]
+
+    @currency_pair_id ||= CURRENCY_PAIR_IDS[currency_pair.from][currency_pair.to]
   end
 end
