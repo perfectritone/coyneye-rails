@@ -22,14 +22,15 @@
 
   <p>
     Set thresholds to automatically update based on the custom price increment provided
-    <%= form_tag staggered_threshold_path, method: :post do %>
-      <%= hidden_field_tag :price_on_load, price_view.current %>
-      <%= text_field_tag :deviance %>
-      <%= submit_tag IndexPresenter.new.staggered_thresholds_button_text %>
-    <% end %>
   </p>
 
-  <p>
+  <%= form_tag staggered_threshold_path, method: :post do %>
+    <%= hidden_field_tag :price_on_load, price_view.current %>
+    <%= text_field_tag :deviance %>
+    <%= submit_tag IndexPresenter.new.staggered_thresholds_button_text %>
+  <% end %>
+
+  <p style="<%= price_view.time_updated_style %>">
     Last updated: <%= price_view.time_updated %><br />
   </p>
 <% end %>

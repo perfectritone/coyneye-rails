@@ -1,4 +1,6 @@
 class PriceView
+  STALE_PRICE_AGE = Rational(1,48)
+
   attr_reader :currency_pair
 
   def initialize(currency_pair:)
@@ -15,6 +17,12 @@ class PriceView
 
   def time_updated
     price&.updated_at
+  end
+
+  def time_updated_style
+    if price&.updated_at && (DateTime.current - price&.updated_at) > STALE_PRICE_AGE
+      "color=red"
+    end
   end
 
   def price
