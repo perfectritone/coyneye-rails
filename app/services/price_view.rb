@@ -20,9 +20,7 @@ class PriceView
   end
 
   def time_updated_style
-    if price&.updated_at && (DateTime.current - price&.updated_at) > STALE_PRICE_AGE
-      "color=red"
-    end
+    "color:red" if stale_time_updated?
   end
 
   def price
@@ -48,5 +46,11 @@ class PriceView
 
   def to_record
     @to_record ||= Currency.find_by(symbol: currency_pair.to)
+  end
+
+  def stale_time_updated?
+    return true unless price&.updated_at
+
+    (DateTime.current - price.updated_at.to_datetime) > STALE_PRICE_AGE
   end
 end

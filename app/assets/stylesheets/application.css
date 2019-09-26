@@ -16,16 +16,32 @@
 
 body {
   background-color: black;
-  color: green;
+  color: #5be65b;
 }
 
 input {
   background-color: #1a1a1a;
-  color: green;
+  color: #00AB00;
+}
+
+a {
+  color: #dffcff;
 }
 
 p {
-  margin: 1em;
+}
+
+#price-views {
+  margin-bottom: 5em;
+}
+
+.threshold-forms {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+.note {
+  font-size: 0.7em;
 }
 
 .footer {
