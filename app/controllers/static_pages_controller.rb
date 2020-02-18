@@ -2,6 +2,7 @@ class StaticPagesController < ActionController::Base
   layout "application"
 
   def index
+    PoloniexFeedSubscriber.reset
     @price_view_collection = PriceViewCollection.new
 
     CURRENCY_PAIRS.each do |currency_pair|
