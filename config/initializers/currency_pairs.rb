@@ -1,3 +1,3 @@
 CURRENCY_PAIRS = [
-  CurrencyPair.new(from: 'USDC', to: 'ETH')
+  CurrencyPair.new(from: 'USDT', to: 'ETH')
 ]
